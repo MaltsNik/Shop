@@ -11,7 +11,7 @@ public interface OrderService {
 
     GetOrderDto getByCustomerFullName(String fullname);
 
-    Long add(CreateOrderDto orderDto);
+    CreateOrderDto add(CreateOrderDto orderDto);
 
     void change(Long id, UpdateOrderDto dto);
 

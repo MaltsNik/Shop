@@ -9,7 +9,7 @@ public interface ItemService {
 
     ItemDto getById(Long id);
 
-    Long add(ItemDto dto);
+    ItemDto add(ItemDto dto);
 
     void remove(Long id);
 }

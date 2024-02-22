@@ -1,6 +1,5 @@
 package com.nikita.shop.controller;
 
-import com.nikita.shop.entity.User;
 import com.nikita.shop.model.CreateOrderDto;
 import com.nikita.shop.repository.UserRepository;
 import com.nikita.shop.service.OrderService;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/shop")
@@ -25,18 +23,18 @@ public class OrderController {
         return ResponseEntity.ok(orderDto);
     }
 
-    @GetMapping("/orders/fullname/{fullname}")
-    public ResponseEntity<GetOrderDto> getOrderByCustomerFullname(@PathVariable String fullname) {
+    @GetMapping("/orders/fullname")
+    public ResponseEntity<GetOrderDto> getOrderByCustomerFullname(@RequestParam String fullname) {
         return ResponseEntity.ok(orderService.getByCustomerFullName(fullname));
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<Long> addOrder(@RequestBody CreateOrderDto dto) {
+    public ResponseEntity<CreateOrderDto> addOrder(@RequestBody CreateOrderDto dto) {
         return ResponseEntity.ok(orderService.add(dto));
     }
 
     @PutMapping("/orders/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateOrderDto dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UpdateOrderDto dto) {
         orderService.change(id, dto);
         return ResponseEntity.ok().build();
     }

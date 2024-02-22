@@ -26,7 +26,7 @@ public class ItemController {
     }
 
     @PostMapping("/items")
-    public ResponseEntity<Long> addItem(@RequestBody ItemDto dto) {
+    public ResponseEntity<ItemDto> addItem(@RequestBody ItemDto dto) {
         return ResponseEntity.ok(itemService.add(dto));
     }
 

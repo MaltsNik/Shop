@@ -1,8 +1,10 @@
 package com.nikita.shop.service.impl;
 
 import com.nikita.shop.entity.Item;
+import com.nikita.shop.entity.Order;
 import com.nikita.shop.model.ItemDto;
 import com.nikita.shop.repository.ItemRepository;
+import com.nikita.shop.repository.OrderRepository;
 import com.nikita.shop.service.ItemService;
 import com.nikita.shop.service.mapper.ItemMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
     private final ItemMapper itemMapper;
 
     @Override
@@ -36,8 +39,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public Long add(ItemDto dto) {
-        return itemRepository.save(itemMapper.toEntity(dto)).getId();
+    public ItemDto add(ItemDto dto) {
+        Order order = orderRepository.findById(dto.getProductId()).
+                orElseThrow(() -> new EntityNotFoundException("no item found"));
+        Item item = itemMapper.toEntity(dto);
+        item.setOrder(order);
+        return itemMapper.toDto(itemRepository.save(item));
     }
 
     @Transactional

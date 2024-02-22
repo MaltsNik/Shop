@@ -12,7 +12,7 @@ public interface OrderMapper {
     GetOrderDto toDto(Order order);
 
     Order toEntity(CreateOrderDto dto);
-    Order toCreatedOrderDto(CreateOrderDto dto);
+    CreateOrderDto toCreatedOrderDto(Order order);
 
     Order fromSaveOrderDto(UpdateOrderDto dto);
 }

@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +27,10 @@ public class OrderServiceImpl implements OrderService {
     public GetOrderDto getById(Long id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         Order order = optionalOrder.orElseThrow(() -> new EntityNotFoundException("no order found"));
-        return orderMapper.toDto(order);
+        if (order.isDeleteOrder()) {
+            throw new EntityNotFoundException("no order found");
+        } else
+            return orderMapper.toDto(order);
     }
 
     @Override
@@ -39,19 +41,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public Long add(CreateOrderDto orderDto) {
-        // Optional<User> optionalUser = userRepository.findById(userId);
-        User user = userRepository.findById(orderDto.getCreatedByUserId()).orElseThrow(() -> new EntityNotFoundException("No user found"));
+    public CreateOrderDto add(CreateOrderDto orderDto) {
+        User user = userRepository.findById(orderDto.getCreatedByUserId()).
+                orElseThrow(() -> new EntityNotFoundException("No user found"));
         Order order = orderMapper.toEntity(orderDto);
         order.setUser(user);
-        return orderRepository.save(orderMapper.toCreatedOrderDto(orderDto)).getId();
+        return orderMapper.toCreatedOrderDto(orderRepository.save(order));
     }
 
     @Transactional
     @Override
     public void change(Long id, UpdateOrderDto orderDto) {
-        if (orderDto.getId() == null) {
-            throw new NullPointerException("Should specify order id");
+        if (orderDto.getId() == null || !orderDto.getId().equals(id)) {
+            throw new IllegalArgumentException("no order found");
         }
         Optional<Order> optionalOrder = orderRepository.findById(id);
         var order = optionalOrder.orElseThrow(() -> new EntityNotFoundException("no order found"));
