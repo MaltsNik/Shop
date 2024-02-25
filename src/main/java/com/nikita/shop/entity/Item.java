@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "items")
@@ -17,7 +18,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "product_id")
-    private String productId;
+    private Long productId;
     @Column(name = "product_name")
     private String productName;
     @Column(name = "description")
