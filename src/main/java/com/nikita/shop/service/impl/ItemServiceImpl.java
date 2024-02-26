@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +25,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getAll() {
-        Optional<List<Item>> optionalItems = Optional.of(itemRepository.findAll());
-        List<Item> items = optionalItems.orElseThrow(() -> new EntityNotFoundException("no item found"));
-        return Collections.singletonList(itemMapper.toDto((Item) items));
+        List<Item> items = itemRepository.findAll();
+        return items.stream().map(itemMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

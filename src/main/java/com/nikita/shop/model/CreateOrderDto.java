@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 public class CreateOrderDto {
-    private Long createdByUserId;
+    private Long userId;
     private String customerFullName;
     private BigDecimal totalCost;
 }

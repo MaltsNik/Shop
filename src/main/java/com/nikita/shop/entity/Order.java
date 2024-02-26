@@ -17,12 +17,12 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "fullname")
+    @Column(name = "customer_fullname")
     private String customerFullName;
     @Column(name = "total_cost")
     private BigDecimal totalCost;
-    @Column(name = "deleted")
-    private boolean deleteOrder;
+    @Column(name = "deleted_order")
+    private boolean deletedOrder;
     @Column(name = "created_by_user_id")
     private Long createdByUserId;
     @ManyToOne(fetch = FetchType.LAZY)

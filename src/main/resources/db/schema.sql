@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS orders
 (
     id                 bigserial primary key,
-    fullname           varchar(255) not null,
+    customer_fullname           varchar(255) not null,
     total_cost         numeric      not null,
-    deleted            boolean      not null,
+    deleted_order            boolean      not null,
     created_by_user_id bigint       not null,
     user_id            bigint references users (id) on DELETE cascade
 );
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS items
     product_id   bigint       not null,
     product_name varchar(100) not null,
     description  varchar(255) not null,
-    price        numeric      not null,
+    price        numeric(18,2)      not null,
     order_id     bigint references orders (id) on delete cascade
 );
 

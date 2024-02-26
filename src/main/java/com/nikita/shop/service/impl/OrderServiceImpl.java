@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     public GetOrderDto getById(Long id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
         Order order = optionalOrder.orElseThrow(() -> new EntityNotFoundException("no order found"));
-        if (order.isDeleteOrder()) {
+        if (order.isDeletedOrder()) {
             throw new EntityNotFoundException("no order found");
         } else
             return orderMapper.toDto(order);
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public CreateOrderDto add(CreateOrderDto orderDto) {
-        User user = userRepository.findById(orderDto.getCreatedByUserId()).
+        User user = userRepository.findById(orderDto.getUserId()).
                 orElseThrow(() -> new EntityNotFoundException("No user found"));
         Order order = orderMapper.toEntity(orderDto);
         order.setUser(user);
@@ -51,11 +51,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public void change(Long id, UpdateOrderDto orderDto) {
-        if (orderDto.getId() == null || !orderDto.getId().equals(id)) {
+    public void change(UpdateOrderDto orderDto) {
+        if (orderDto.getId() == null) {
             throw new IllegalArgumentException("no order found");
         }
-        Optional<Order> optionalOrder = orderRepository.findById(id);
+        Optional<Order> optionalOrder = orderRepository.findById(orderDto.getId());
         var order = optionalOrder.orElseThrow(() -> new EntityNotFoundException("no order found"));
         order.setTotalCost(orderDto.getTotalCost());
         order.setCustomerFullName(orderDto.getCustomerFullName());
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
             return;
         }
         var order = byId.get();
-        order.setDeleteOrder(true);
+        order.setDeletedOrder(true);
         orderRepository.save(order);
     }
 }

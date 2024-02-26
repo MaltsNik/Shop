@@ -20,9 +20,4 @@ public class User {
     private String name;
     @Column(name = "email")
     private String email;
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "user",
-            cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Order> orders;
 }

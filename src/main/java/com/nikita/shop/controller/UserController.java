@@ -6,23 +6,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
-@RequestMapping("/api/shop")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getById(id));
     }
 
-    @PostMapping("/users")
+    @PostMapping("/")
     public ResponseEntity<Long> addUser(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.add(userDto));
+        userService.add(userDto);
+        return ResponseEntity.status(CREATED).build();
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.removeById(id);
         return ResponseEntity.ok().build();

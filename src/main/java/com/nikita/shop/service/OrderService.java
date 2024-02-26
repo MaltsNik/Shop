@@ -13,7 +13,7 @@ public interface OrderService {
 
     CreateOrderDto add(CreateOrderDto orderDto);
 
-    void change(Long id, UpdateOrderDto dto);
+    void change( UpdateOrderDto dto);
 
     void removeById(Long id);
 }
