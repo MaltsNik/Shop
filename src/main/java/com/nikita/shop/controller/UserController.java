@@ -14,9 +14,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getById(id));
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
+        ResponseEntity<UserDto> responseEntity = ResponseEntity.ok(userService.getById(userId));
+        return responseEntity;
     }
 
     @PostMapping("/")
@@ -25,9 +26,9 @@ public class UserController {
         return ResponseEntity.status(CREATED).build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.removeById(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.removeById(userId);
         return ResponseEntity.ok().build();
     }
 }

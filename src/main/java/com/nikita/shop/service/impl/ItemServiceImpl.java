@@ -32,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto getById(Long id) {
         Optional<Item> optionalItem = itemRepository.findById(id);
-        Item item = optionalItem.orElseThrow(() -> new EntityNotFoundException("no item found"));
+        Item item = optionalItem.orElseThrow(() -> new EntityNotFoundException("no item found" + id));
         return itemMapper.toDto(item);
     }
 
@@ -40,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto add(ItemDto dto) {
         Order order = orderRepository.findById(dto.getProductId()).
-                orElseThrow(() -> new EntityNotFoundException("no item found"));
+                orElseThrow(() -> new EntityNotFoundException("no item found" + dto.getProductId()));
         Item item = itemMapper.toEntity(dto);
         item.setOrder(order);
         return itemMapper.toDto(itemRepository.save(item));

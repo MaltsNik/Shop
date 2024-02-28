@@ -17,15 +17,16 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class OrderController {
     private final OrderService orderService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GetOrderDto> getOrderById(@PathVariable Long id) {
-        var orderDto = orderService.getById(id);
+    @GetMapping("/{orderId}")
+    public ResponseEntity<GetOrderDto> getOrderById(@PathVariable Long orderId) {
+        var orderDto = orderService.getById(orderId);
         return ResponseEntity.ok(orderDto);
     }
 
     @GetMapping("/fullname")
     public ResponseEntity<GetOrderDto> getOrderByCustomerFullname(@RequestParam String fullname) {
-        return ResponseEntity.ok(orderService.getByCustomerFullName(fullname));
+        ResponseEntity<GetOrderDto> responseEntity = ResponseEntity.ok(orderService.getByCustomerFullName(fullname));
+        return responseEntity;
     }
 
     @PostMapping("/")
@@ -35,15 +36,14 @@ public class OrderController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<?> update( @RequestBody UpdateOrderDto dto) {
+    public ResponseEntity<?> update(@RequestBody UpdateOrderDto dto) {
         orderService.change(dto);
         return ResponseEntity.ok().build();
-
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        orderService.removeById(id);
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> delete(@PathVariable Long orderId) {
+        orderService.removeById(orderId);
         return ResponseEntity.ok().build();
     }
 }
