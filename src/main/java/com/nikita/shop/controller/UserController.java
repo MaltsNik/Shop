@@ -3,11 +3,13 @@ package com.nikita.shop.controller;
 import com.nikita.shop.model.UserDto;
 import com.nikita.shop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -20,9 +22,16 @@ public class UserController {
         return responseEntity;
     }
 
-    @PostMapping("/")
+    @GetMapping("/name/{name}")
+    public ResponseEntity<UserDto> getUserByName(@PathVariable String name) {
+        ResponseEntity<UserDto> responseEntity = ResponseEntity.ok(userService.getByName(name));
+        return responseEntity;
+    }
+
+    @PostMapping("/add")
     public ResponseEntity<Long> addUser(@RequestBody UserDto userDto) {
         userService.add(userDto);
+        log.info("юзер сохраняется" + userDto.toString());
         return ResponseEntity.status(CREATED).build();
     }
 

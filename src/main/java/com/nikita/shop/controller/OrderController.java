@@ -29,13 +29,13 @@ public class OrderController {
         return responseEntity;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<CreateOrderDto> addOrder(@RequestBody CreateOrderDto dto) {
         orderService.add(dto);
         return ResponseEntity.status(CREATED).body(dto);
     }
 
-    @PutMapping("/")
+    @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody UpdateOrderDto dto) {
         orderService.change(dto);
         return ResponseEntity.ok().build();
