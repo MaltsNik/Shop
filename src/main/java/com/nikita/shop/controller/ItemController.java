@@ -28,7 +28,7 @@ public class ItemController {
         return responseEntity;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<ItemDto> addItem(@RequestBody ItemDto dto) {
         return ResponseEntity.status(CREATED).body(dto);
     }
